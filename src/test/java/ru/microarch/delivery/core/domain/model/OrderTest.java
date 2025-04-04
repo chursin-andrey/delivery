@@ -5,16 +5,12 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
-import ru.microarch.delivery.core.domain.model.courieraggregate.Courier;
 import ru.microarch.delivery.core.domain.model.orderaggregate.Order;
 import ru.microarch.delivery.core.domain.model.orderaggregate.OrderStatus;
 import ru.microarch.delivery.core.domain.model.sharedkernel.Location;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OrderTest {
 

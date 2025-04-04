@@ -1,6 +1,5 @@
 package ru.microarch.delivery.core.domain.model;
 
-import java.util.UUID;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Nested;
@@ -13,8 +12,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
 import ru.microarch.delivery.core.domain.model.courieraggregate.Courier;
 import ru.microarch.delivery.core.domain.model.courieraggregate.CourierStatus;
-import ru.microarch.delivery.core.domain.model.courieraggregate.Transport;
-import ru.microarch.delivery.core.domain.model.orderaggregate.OrderStatus;
 import ru.microarch.delivery.core.domain.model.sharedkernel.Location;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,11 +22,11 @@ public class CourierTest {
     @Nested
     class WhenCreateCourierTest {
 
-        @Test
-        void should_CreateCourierWithFreeStatus() {
-            String courierName = "Harry";
+        @ParameterizedTest
+        @CsvSource(value = {"1", "2", "3"})
+        void should_CreateCourierWithFreeStatus(int transportSpeed) {
+            String courierName = "Harry Potter";
             String transportName = "Nimbus 2000";
-            int transportSpeed = 2;
             Location location = Location.createRandomLocation();
 
             Courier courier = Courier.create(courierName, transportName, transportSpeed, location);
@@ -55,13 +52,13 @@ public class CourierTest {
         @EmptySource
         @NullSource
         void should_NotCreateCourier_when_TransportNameIsEmptyOrNull(String transportName) {
-            assertThrows(IllegalArgumentException.class, () -> Courier.create("Harry", transportName, 1, Location.createRandomLocation()));
+            assertThrows(IllegalArgumentException.class, () -> Courier.create("Harry Potter", transportName, 1, Location.createRandomLocation()));
         }
 
         @ParameterizedTest
         @NullSource
         void should_NotCreateCourier_when_LocationIsNull(Location location) {
-            assertThrows(IllegalArgumentException.class, () -> Courier.create("Harry", "Nimbus 2000", 1, location));
+            assertThrows(IllegalArgumentException.class, () -> Courier.create("Harry Potter", "Nimbus 2000", 1, location));
         }
     }
 
@@ -71,7 +68,7 @@ public class CourierTest {
         @Test
         void should_MoveToAnotherLocation() {
             Location orderLocation = Location.create(5, 5);
-            Courier courier = Courier.create("Harry", "Nimbus 2000", 1, Location.create(1, 1));
+            Courier courier = Courier.create("Harry Potter", "Nimbus 2000", 1, Location.create(1, 1));
 
             Location targetLocation = Location.create(2, 1);
             courier.move(targetLocation);
@@ -84,7 +81,7 @@ public class CourierTest {
         @ParameterizedTest
         @NullSource
         void should_NotMoveToAnotherLocation_when_LocationIsIncorrect(Location targetLocation) {
-            Courier courier = Courier.create("Harry", "Nimbus 2000", 1, Location.create(1, 1));
+            Courier courier = Courier.create("Harry Potter", "Nimbus 2000", 1, Location.create(1, 1));
 
             assertThrows(IllegalArgumentException.class, () -> courier.move(targetLocation));
         }
@@ -92,7 +89,7 @@ public class CourierTest {
         @ParameterizedTest
         @MethodSource("provideParameters")
         void should_CalculateTimeToLocation(Location courierLocation, Location orderLocation, int speed, int expectedTime) {
-            Courier courier = Courier.create("Harry", "Nimbus 2000", speed, courierLocation);
+            Courier courier = Courier.create("Harry Potter", "Nimbus 2000", speed, courierLocation);
 
             int actualTime = courier.calculateTimeTo(orderLocation);
 
@@ -122,14 +119,14 @@ public class CourierTest {
 
         @Test
         void should_NotChangeStatusToFree_When_CourierIsAlreadyFree() {
-            Courier courier = Courier.create("Harry", "Nimbus 2000", 1, Location.createRandomLocation());
+            Courier courier = Courier.create("Harry Potter", "Nimbus 2000", 1, Location.createRandomLocation());
 
             assertThrows(IllegalStateException.class, () -> courier.setFree());
         }
 
         @Test
         void should_ChangeStatusToBusy() {
-            Courier courier = Courier.create("Harry", "Nimbus 2000", 1, Location.createRandomLocation());
+            Courier courier = Courier.create("Harry Potter", "Nimbus 2000", 1, Location.createRandomLocation());
 
             courier.setBusy();
 
@@ -138,7 +135,7 @@ public class CourierTest {
 
         @Test
         void should_NotChangeStatusToBusy_When_CourierIsAlreadyBusy() {
-            Courier courier = Courier.create("Harry", "Nimbus 2000", 1, Location.createRandomLocation());
+            Courier courier = Courier.create("Harry Potter", "Nimbus 2000", 1, Location.createRandomLocation());
 
             courier.setBusy();
 
