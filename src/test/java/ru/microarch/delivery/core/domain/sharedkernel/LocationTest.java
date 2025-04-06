@@ -49,7 +49,7 @@ public class LocationTest {
                 "1,11"
         })
         void shouldNotCreateLocation_when_CoordinateIsIncorrect(int x, int y) {
-            var actual = assertThrows(IllegalArgumentException.class, () -> Location.create(x, y));
+            assertThrows(IllegalArgumentException.class, () -> Location.create(x, y));
         }
 
         @Test
@@ -145,7 +145,7 @@ public class LocationTest {
                 "4, 2, 9, 6, 5"
 
         })
-        void shoulReturnDistanceBetweenTwoLocations(int currentX, int targetX, int currentY, int targetY, int distance) {
+        void shouldReturnDistanceBetweenTwoLocations(int currentX, int targetX, int currentY, int targetY, int distance) {
             var currentLocation = Location.create(currentX, currentY);
             var targetLocation = Location.create(targetX, targetY);
 
