@@ -1,10 +1,23 @@
 package ru.microarch.delivery.core.domain.model.orderaggregate;
 
 import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ru.microarch.delivery.core.domain.model.sharedkernel.Location;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
+@Builder(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Order {
-    private final UUID id;
+    private UUID id;
     private Location location;
     private OrderStatus status;
     private UUID courierId;
@@ -34,27 +47,5 @@ public class Order {
             throw new IllegalStateException("Cannot complete order with id=%s and status=%s".formatted(this.id, this.status));
         }
         this.status = OrderStatus.COMPLETED;
-    }
-
-    public UUID getCourierId(){
-        return courierId;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Order order = (Order) o;
-
-        return id != null ? id.equals(order.id) : order.id == null;
     }
 }
