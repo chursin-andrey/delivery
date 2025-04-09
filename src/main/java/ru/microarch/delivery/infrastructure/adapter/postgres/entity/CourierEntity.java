@@ -11,9 +11,17 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ru.microarch.delivery.core.domain.model.courieraggregate.CourierStatus;
 import ru.microarch.delivery.core.domain.model.courieraggregate.Transport;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "couriers", schema = "delivery")
 public class CourierEntity {
