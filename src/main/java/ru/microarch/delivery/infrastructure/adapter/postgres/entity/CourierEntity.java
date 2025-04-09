@@ -36,6 +36,9 @@ public class CourierEntity {
     @Column(name = "status", nullable = false)
     private CourierStatus status;
 
+    @Embedded
+    private LocationEntity location;
+
     @OneToOne
     @JoinColumn(name = "transport_id", referencedColumnName = "id")
     private TransportEntity transport;
