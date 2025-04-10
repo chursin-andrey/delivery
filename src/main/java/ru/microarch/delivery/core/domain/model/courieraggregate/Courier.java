@@ -2,35 +2,27 @@ package ru.microarch.delivery.core.domain.model.courieraggregate;
 
 import java.util.Objects;
 import java.util.UUID;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.util.StringUtils;
 import ru.microarch.delivery.core.domain.model.sharedkernel.Location;
 
+@Getter
+@ToString
+@EqualsAndHashCode(of = "id")
+@Builder(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Courier {
-    private final UUID id;
-    private final String name;
-    private final Transport transport;
+    private UUID id;
+    private String name;
+    private Transport transport;
     private Location location;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Transport getTransport() {
-        return transport;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public CourierStatus getStatus() {
-        return status;
-    }
-
     private CourierStatus status;
 
     private Courier(String name, Transport transport, Location location) {
@@ -83,15 +75,5 @@ public class Courier {
         double distance = this.location.calculateDistanceTo(location);
         int time = (int) Math.ceil((double) distance / transport.speed());
         return time;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Courier courier = (Courier) o;
-
-        return id.equals(courier.id);
     }
 }
