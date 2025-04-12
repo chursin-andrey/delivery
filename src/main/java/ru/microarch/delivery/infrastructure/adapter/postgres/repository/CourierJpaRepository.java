@@ -10,4 +10,6 @@ import ru.microarch.delivery.core.domain.model.courieraggregate.CourierStatus;
 @Repository
 public interface CourierJpaRepository extends JpaRepository<CourierEntity, UUID> {
     List<CourierEntity> findAllByStatusIs(CourierStatus status);
+
+    List<CourierEntity> findAllByStatusIn(List<CourierStatus> status);
 }
