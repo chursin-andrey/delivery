@@ -1,6 +1,7 @@
 package ru.microarch.delivery.core.application.usecase.command.movecourier;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.microarch.delivery.core.domain.model.orderaggregate.Order;
@@ -8,6 +9,7 @@ import ru.microarch.delivery.core.domain.model.courieraggregate.Courier;
 import ru.microarch.delivery.core.port.CourierRepository;
 import ru.microarch.delivery.core.port.OrderRepository;
 
+@Slf4j
 @Component
 public class MoveCourierHandler {
 
@@ -32,6 +34,7 @@ public class MoveCourierHandler {
             }
             Courier courier = courierRepository.getById(order.getCourierId());
             courier.move(order.getLocation());
+            log.info("Courier {} made a step forward order location", courier);
 
             if (courier.getLocation().equals(order.getLocation())) {
                 order.complete();
@@ -39,6 +42,7 @@ public class MoveCourierHandler {
                 orderRepository.update(order);
             }
             courierRepository.update(courier);
+            log.info("Order {} was completed by courier {}", order, courier);
         }
     }
 }
