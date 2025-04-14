@@ -16,4 +16,6 @@ public interface OrderRepository {
     Order getAnyCreatedOrder();
 
     List<Order> getAllAssignedOrders();
+
+    List<Order> getAllCreatedAndAssignedOrders();
 }

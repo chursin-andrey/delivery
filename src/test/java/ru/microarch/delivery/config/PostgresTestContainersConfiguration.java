@@ -24,7 +24,7 @@ public class PostgresTestContainersConfiguration {
     @Bean
     @ServiceConnection
     public PostgreSQLContainer<?> postgresContainer() {
-        final var postgresContainer = PostgreSQLContainer<>(DockerImageName.parse(POSTGRES_LATEST_VERSION))
+        final var postgresContainer = new PostgreSQLContainer<>(DockerImageName.parse(POSTGRES_LATEST_VERSION))
                 .withUsername(SUPERUSER_LOGIN)
                 .withPassword(SUPERUSER_PASSWORD)
                 .withDatabaseName(DATABASE_NAME)
@@ -39,7 +39,7 @@ public class PostgresTestContainersConfiguration {
                 );
 
         postgresContainer.start();
-        return postgresContainer;;
+        return postgresContainer;
     }
 
     @Bean

@@ -51,9 +51,16 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Order> getAllAssignedOrders() {
-        return orderJpaRepository.findAll().stream()
+        return orderJpaRepository.findAllByStatusIs(OrderStatus.ASSIGNED).stream()
                 .map(mapper::toModel)
-                .filter(order -> order.getStatus().equals(OrderStatus.ASSIGNED))
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Order> getAllCreatedAndAssignedOrders() {
+        return orderJpaRepository.findAllByStatusIn(List.of(OrderStatus.CREATED, OrderStatus.ASSIGNED)).stream()
+                .map(mapper::toModel)
                 .toList();
     }
 }

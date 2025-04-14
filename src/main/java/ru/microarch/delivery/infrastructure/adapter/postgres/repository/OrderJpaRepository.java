@@ -12,7 +12,9 @@ import ru.microarch.delivery.core.domain.model.orderaggregate.OrderStatus;
 public interface OrderJpaRepository extends JpaRepository<OrderEntity, UUID> {
 
     Optional<OrderEntity> findFirstByStatus(OrderStatus status);
-    List<OrderEntity> findAllByStatus(OrderStatus status);
+
+    List<OrderEntity> findAllByStatusIs(OrderStatus status);
+    List<OrderEntity> findAllByStatusIn(List<OrderStatus> status);
 
     Optional<OrderEntity> findByCourierId(UUID courierId);
 }

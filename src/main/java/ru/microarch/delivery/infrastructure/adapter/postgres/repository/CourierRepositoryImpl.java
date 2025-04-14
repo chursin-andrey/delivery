@@ -47,9 +47,16 @@ public class CourierRepositoryImpl implements CourierRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Courier> getAllFreeCouriers() {
-        return courierJpaRepository.findAll().stream()
+        return courierJpaRepository.findAllByStatusIs(CourierStatus.FREE).stream()
                 .map(mapper::toModel)
-                .filter(courier -> courier.getStatus() == CourierStatus.FREE)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Courier> getAllBusyCouriers() {
+        return courierJpaRepository.findAllByStatusIs(CourierStatus.BUSY).stream()
+                .map(mapper::toModel)
                 .toList();
     }
 }

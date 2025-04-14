@@ -14,4 +14,6 @@ public interface CourierRepository {
     Courier getById(UUID id);
 
     List<Courier> getAllFreeCouriers();
+
+    List<Courier> getAllBusyCouriers();
 }
